@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.1.3.xsd">
+	<http auto-config="true" access-denied-page="/denied.jsp">
+		<intercept-url pattern="/scripts/**" filters="none"/>
+		<intercept-url pattern="/styles/**" filters="none"/>
+		<intercept-url pattern="/images/**" filters="none"/>
+		<intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/dologin" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<form-login login-page="/login" username-parameter="username" password-parameter="password" login-processing-url="/dologin" default-target-url="/" authentication-failure-url="/login?error=1"/>
+<!--		<session-management> -->
+<!--			<concurrency-control max-sessions="2" error-if-maximum-exceeded="true" /> -->
+<!--		</session-management> -->
+		<logout logout-url="/logout"/>
+	</http>
+	
+<!-- 	<authentication-manager>
+		<authentication-provider ref="userAuthenticationProvider" />
+	</authentication-manager>
+ -->	
+	
+	
+	<!-- 用户登录认证 -->
+<!--	 <beans:bean id="userAuthenticationProvider" class="com.trs.smas.model.login.impl.UserAuthenticationProvider">
+ 		<beans:property name="userDetailsService" ref="userAdminService" />
+ 		<beans:property name="organizationAdminService" ref="organizationAdminService" />
+  	</beans:bean>
+  	<beans:bean class="com.trs.smas.model.login.impl.LoginFormParameterModifier">
+  		<beans:property name="usernameParameter" value="username" />
+		<beans:property name="passwordParameter" value="password" />
+	</beans:bean>
+ -->
+	
+	<!-- 认证提示信息 -->
+	<beans:bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="basename" value="classpath:messages" />
+	</beans:bean>
+
+</beans:beans>	 

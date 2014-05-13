@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+	<mvc:annotation-driven >
+		<mvc:message-converters register-defaults="true">
+			<bean class="me.aboz.util.UTF8StringHttpMessageConverter">
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<mvc:resources location="/css/" mapping="/css/**"/>
+	<mvc:resources location="/img/" mapping="/img/**"/>
+	<mvc:resources location="/js/" mapping="/js/**"/>
+	<mvc:resources location="/fonts/" mapping="/fonts/**"/>
+	<mvc:resources location="/tpl/" mapping="/tpl/**"/>
+
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/views/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+
+	<!--file upload -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	</bean>
+
+	<!-- Controllers -->
+	<bean name="homeController" class="me.aboz.ui.controller.HomeController">
+		<property name="userAdminService" ref="userAdminService" />
+	</bean>
+	<bean name="weixinController" class="me.aboz.ui.controller.WeixinController">
+		<property name="responder" ref="weixinRobot" />
+	</bean>
+</beans>
